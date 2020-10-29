@@ -1,20 +1,60 @@
 # SimpleMongoApp
 
-To start your Phoenix server:
+Found clear instructions for how to connect Phoenix to MongoDB at https://medium.com/swlh/setup-phoenix-on-docker-with-mongodb-d411e24dd78c
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `cd assets && npm install`
-  * Start Phoenix endpoint with `mix phx.server`
+The only things missing are these:
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Before starting Phoenix with `mix phx.server` -
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+In the MongoDB console ('mongo') you have to do this:
+   `use my_app_db`
 
-## Learn more
+Then
+   `db.user.insert({name: "Ada Lovelace", age: 205})``
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: https://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+Enter
+   `show dbs`
+
+And you should see 'my_app_db' listed
+
+Now you can do the following
+  ```
+  db.createCollection("my_collection")
+  db.createUser(
+   {
+    user: "root",
+    pwd: "rootpassword",
+    roles: [
+      {
+        role: "dbOwner",
+        db: "my_app_db"
+      }
+    ]
+   }
+  )
+  ```
+
+NOW start Phoenix, and it should connect using the information in application.ex:
+```
+def start(_type, _args) do
+  import Supervisor.Spec
+
+  children = [
+    supervisor(SimpleMongoAppWeb.Endpoint, []),
+    worker(
+           Mongo,
+           [[
+             database: "my_app_db",
+             hostname: "localhost",
+             username: "root",
+             password: "rootpassword"
+           ]]
+         )
+  ]
+
+  opts = [strategy: :one_for_one, name: SimpleMongoApp.Supervisor]
+  Supervisor.start_link(children, opts)
+end
+```
+
+See https://www.mongodb.com/basics/create-database
