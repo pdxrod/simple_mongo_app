@@ -28,11 +28,7 @@ defmodule SimpleMongoAppWeb.ConnCase do
 
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(SimpleMongoApp.Repo)
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(SimpleMongoApp.Repo, {:shared, self()})
-    end
-    {:ok, conn: Phoenix.ConnTest.build_conn()}
+    :ok
   end
 
 end

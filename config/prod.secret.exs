@@ -10,11 +10,3 @@ use Mix.Config
 # or recreate for your teammates (or yourself later on).
 config :simple_mongo_app, SimpleMongoAppWeb.Endpoint,
   secret_key_base: "ch6hXA7gd4Ka6BwlOVk/b0J9CZqZ0Ms+orwEgNX7McVWC1HYcJQVeOCWZ+y+clgF"
-
-# Configure your database
-config :simple_mongo_app, SimpleMongoApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "simple_mongo_app_prod",
-  pool_size: 15

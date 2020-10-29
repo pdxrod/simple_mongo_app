@@ -8,12 +8,3 @@ config :simple_mongo_app, SimpleMongoAppWeb.Endpoint,
 
 # Print only warnings and errors during test
 config :logger, level: :warn
-
-# Configure your database
-config :simple_mongo_app, SimpleMongoApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
-  database: "simple_mongo_app_test",
-  hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox

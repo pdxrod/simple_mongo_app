@@ -5,10 +5,6 @@
 # is restricted to this project.
 use Mix.Config
 
-# General application configuration
-config :simple_mongo_app,
-  ecto_repos: [SimpleMongoApp.Repo]
-
 # Configures the endpoint
 config :simple_mongo_app, SimpleMongoAppWeb.Endpoint,
   url: [host: "localhost"],

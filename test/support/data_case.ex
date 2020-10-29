@@ -16,8 +16,6 @@ defmodule SimpleMongoApp.DataCase do
 
   using do
     quote do
-      alias SimpleMongoApp.Repo
-
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
@@ -26,12 +24,6 @@ defmodule SimpleMongoApp.DataCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(SimpleMongoApp.Repo)
-
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(SimpleMongoApp.Repo, {:shared, self()})
-    end
-
     :ok
   end
 
