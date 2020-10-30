@@ -9,18 +9,9 @@ defmodule SimpleMongoAppWeb.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :api do
-    plug :accepts, ["json"]
-  end
-
   scope "/", SimpleMongoAppWeb do
     pipe_through :browser
     post "/", PageController, :index
     get "/", PageController, :index
-  end
-
-  scope "/articles", SimpleMongoAppWeb do
-    pipe_through :browser
-    get "/articles", ArticleController, :index
   end
 end

@@ -9,9 +9,6 @@ defmodule SimpleMongoApp.Article do
     timestamps()
   end
 
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
   def changeset(user, params \\ %{}) do
     cast(user, params, [:name, :age])
   end

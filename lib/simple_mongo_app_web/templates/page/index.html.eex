@@ -4,7 +4,24 @@
 
     <a href="/">Home</a><br/><br/>
 
-    <a href="/articles">Articles</a><br/><br/>
-
   </p>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Contents</th>
+          </tr>
+        </thead>
+        <tbody>
+        <%= for article <- @articles do %>
+            <tr>
+              <td><%= article.contents %></td>
+
+              <td class="text-right">
+                <span><%= link "Edit", to: "/articles", class: "btn btn-default btn-xs" %></span>
+              </td>
+            </tr>
+        <% end %>
+
+        </tbody>
+      </table>
 </div>
