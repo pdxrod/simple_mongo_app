@@ -14,13 +14,10 @@ defmodule SimpleMongoAppWeb.Router do
   end
 
   scope "/", SimpleMongoAppWeb do
-    pipe_through :browser # Use the default browser stack
-
+    pipe_through :browser
+    post "/", PageController, :index
     get "/", PageController, :index
+    resources "/title", ArticleController
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", SimpleMongoAppWeb do
-  #   pipe_through :api
-  # end
 end
