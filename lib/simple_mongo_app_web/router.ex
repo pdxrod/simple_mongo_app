@@ -17,7 +17,10 @@ defmodule SimpleMongoAppWeb.Router do
     pipe_through :browser
     post "/", PageController, :index
     get "/", PageController, :index
-    resources "/title", ArticleController
   end
 
+  scope "/articles", SimpleMongoAppWeb do
+    pipe_through :browser
+    get "/articles", ArticleController, :index
+  end
 end
