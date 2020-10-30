@@ -5,6 +5,9 @@
     <a href="/">Home</a><br/><br/>
 
   </p>
+  <p>
+    Count: <%= article_count %>
+  </p>
       <table class="table">
         <thead>
           <tr>
