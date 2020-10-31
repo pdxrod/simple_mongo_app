@@ -57,4 +57,19 @@ def start(_type, _args) do
 end
 ```
 
+You can also do this    
+
+`$ iex -S mix phx.server`
+```
+Mongo.start_link(
+  name: :article,
+  database: "my_app_db",
+  hostname: "localhost",
+  username: "root",
+  password: "rootpassword"
+)
+```
+`Mongo.insert_one(:article, "my_app_db", %{name: "John", classification: "man" })`
+
+
 See https://www.mongodb.com/basics/create-database

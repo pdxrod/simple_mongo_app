@@ -3,7 +3,7 @@ defmodule SimpleMongoAppWeb.PageView do
 
   defp start_mongo do
     Mongo.start_link(
-      name: :mongo,
+      name: :article,
       database: "my_app_db",
       hostname: "localhost",
       username: "root",
@@ -12,7 +12,7 @@ defmodule SimpleMongoAppWeb.PageView do
   end
 
   defp article_count do
-    tuple = Mongo.count(:mongo, "my_app_db", %{})
+    tuple = Mongo.count(:article, "my_app_db", %{})
     if elem( tuple, 0 ) == :ok do
       "#{ elem( tuple, 1 ) }"
     else
@@ -31,7 +31,7 @@ defmodule SimpleMongoAppWeb.PageView do
   end
 
   defp articles do
-    cursor = Mongo.find(:mongo, "my_app_db", %{})
+    cursor = Mongo.find(:article, "my_app_db", %{})
     cursor
       |> Enum.to_list()
   end

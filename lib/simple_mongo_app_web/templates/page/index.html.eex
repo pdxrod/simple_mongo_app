@@ -21,7 +21,7 @@
               <td><%= article["name"] %> <%= article["classification"] %> </td>
 
               <td class="text-right">
-                <span><%= link "Edit", to: "/articles", class: "btn btn-default btn-xs" %></span>
+                <span><%= link "Edit", to: "/", class: "btn btn-default btn-xs" %></span>
               </td>
             </tr>
         <% end %>
