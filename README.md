@@ -10,7 +10,7 @@ In the MongoDB console ('mongo') you have to do this:
    `use my_app_db`
 
 Then
-   `db.user.insert({name: "Ada Lovelace", age: 205})``
+   `db.article.insert({name: "Ada Lovelace", classification: "programmer"})`
 
 Enter
    `show dbs`
@@ -18,7 +18,7 @@ Enter
 And you should see 'my_app_db' listed
 
 Now you can do the following
-  ```
+```
   db.createCollection("my_collection")
   db.createUser(
    {
@@ -32,7 +32,7 @@ Now you can do the following
     ]
    }
   )
-  ```
+```
 
 NOW start Phoenix, and it should connect using the information in application.ex:
 ```

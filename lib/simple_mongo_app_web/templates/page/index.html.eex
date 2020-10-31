@@ -18,7 +18,7 @@
 
         <%= for article <- show_articles do %>
             <tr>
-              <td><%= article["first_name"] %> <%= article["last_name"] %> </td>
+              <td><%= article["name"] %> <%= article["classification"] %> </td>
 
               <td class="text-right">
                 <span><%= link "Edit", to: "/articles", class: "btn btn-default btn-xs" %></span>
