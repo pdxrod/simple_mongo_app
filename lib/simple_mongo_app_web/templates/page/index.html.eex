@@ -6,7 +6,7 @@
 
   </p>
   <p>
-    Count: <%= article_count %>
+    Count: <%= show_article_count %>
   </p>
       <table class="table">
         <thead>
@@ -15,9 +15,10 @@
           </tr>
         </thead>
         <tbody>
-        <%= for article <- @articles do %>
+
+        <%= for article <- show_articles do %>
             <tr>
-              <td><%= article.contents %></td>
+              <td><%= article["first_name"] %> <%= article["last_name"] %> </td>
 
               <td class="text-right">
                 <span><%= link "Edit", to: "/articles", class: "btn btn-default btn-xs" %></span>

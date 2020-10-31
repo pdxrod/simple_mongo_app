@@ -4,8 +4,7 @@ defmodule SimpleMongoAppWeb.PageController do
   alias SimpleMongoApp.Article
 
   def index(conn, _params) do
-    articles = []
-    render(conn, "index.html", articles: articles)
+    render conn, "index.html"
   end
 
 end
