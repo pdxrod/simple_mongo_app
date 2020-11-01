@@ -60,6 +60,7 @@ end
 You can also do this    
 
 `$ iex -S mix phx.server`
+
 ```
 Mongo.start_link(
   name: :article,
@@ -69,7 +70,10 @@ Mongo.start_link(
   password: "rootpassword"
 )
 ```
+
 `Mongo.insert_one(:article, "my_app_db", %{name: "John", classification: "man" })`
+
+`Mongo.insert_one(:article, "my_app_db", %{name: "Ferrari", classification: "car", color: "red" })`
 
 
 See https://www.mongodb.com/basics/create-database
