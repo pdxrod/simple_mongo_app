@@ -16,7 +16,7 @@
         </thead>
         <tbody>
 
-        <%= for article <- show_articles do %>
+        <%= for article <- [] do %>
             <tr>
               <td><%= article["name"] %> <%= article["classification"] %> </td>
 
@@ -25,6 +25,8 @@
               </td>
             </tr>
         <% end %>
+
+       <%= show_articles |> raw %>
 
         </tbody>
       </table>

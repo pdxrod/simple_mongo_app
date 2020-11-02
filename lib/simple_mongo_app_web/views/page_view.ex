@@ -30,10 +30,41 @@ defmodule SimpleMongoAppWeb.PageView do
     end
   end
 
+  @types ~w[function nil integer binary bitstring list map float atom tuple pid port reference]
+  for type <- @types do
+    def typeof(x) when unquote(:"is_#{type}")(x), do: unquote(type)
+  end
+
+  defp stringify_key_val( key, val ) do
+    if typeof( val ) == "binary" do
+      "#{key} - #{val} "
+    else
+      ""
+    end
+  end
+
+  defp stringify_keys( keys, map ) do
+    case keys do
+      [] -> ""
+      [hd | tl] -> stringify_key_val( List.first( keys), map[ List.first( keys ) ]) <> stringify_keys( tl, map )
+    end
+  end
+
+  defp stringify_map( map ) do
+    stringify_keys( Map.keys( map ), map )
+  end
+
+  defp stringify_list( list ) do
+    case list do
+      [] -> ""
+      [hd | tl] -> stringify_map( hd ) <> "<br/>\n" <> stringify_list( tl )
+    end
+  end
+
   defp articles do
     cursor = Mongo.find(:article, "my_app_db", %{})
-    cursor
-      |> Enum.to_list()
+    list = cursor |> Enum.to_list()
+    stringify_list( list )
   end
 
   def show_articles do
