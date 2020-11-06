@@ -53,13 +53,26 @@ defmodule SimpleMongoAppWeb.PageView do
     cursor |> Enum.to_list() |> stringify_list
   end
 
+  def find_article( id, articles_list ) do
+    case articles_list do
+      [] -> ""
+      [ hd | tl ] ->
+        str = elem( hd, 0 )
+        if id == str do
+          str <> " " <> elem( hd, 1 )
+        else
+          find_article id, tl
+        end
+    end
+  end
+
   def show_articles do
     try do
       start_mongo
       articles
     rescue
       re in RuntimeError -> re
-      "Error: #{ re.message }"
+      ["e", "Error: #{ re.message }"] # {:error, {:already_started, #PID<0.451.0>}}
     end
   end
 

@@ -1,33 +1,31 @@
 <div class="jumbotron">
-  <h2>Articles Database</h2>
-  <p class="lead">
+  <h3>Articles Database</h3>
 
-    <a href="/">Home</a><br/><br/>
-
-  </p>
   <table class="table">
-    <thead>
-      <tr>
-        <th>Contents</th>
-      </tr>
-    </thead>
     <tbody>
 
       <% i = 0 %>
       <%= for article <- show_articles() do %>
-          <tr>
-            <td align = "left"> <%= elem( article, 1 ) |> raw %> </td>
+        <tr>
+          <td align = "left"> <%= elem( article, 1 ) |> raw %> </td>
 
-            <td class="text-right">
-              <% id = elem( article, 0 ) %>
-              <form id="number<%= id %>" method="post" name="number<%= id %>">
-                <span><button class="btn btn-default btn-xs" id="save_button_<%= id %>" type="submit">Save</button></span>
-              </form>
-            </td>
-          </tr>
+          <td class="text-right">
+            <% id = elem( article, 0 ) %>
+            <form id="number<%= id %>" method="post" name="number<%= id %>">
+              <span><button class="btn btn-default btn-xs" id="save_button_<%= id %>" type="submit">Save</button></span>
+            </form>
+          </td>
+
+        </tr>
+
       <% end %>
+
+      <tr>
+        <td>
+<%= find_article("5f9d7adca9f74f0c6b94623b", show_articles()) %>
+        </td>
+      </tr>
 
     </tbody>
   </table>
-
 </div>
