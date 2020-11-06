@@ -56,15 +56,14 @@ defmodule SimpleMongoAppWeb.PageView do
 
   defp stringify_list( list ) do
     case list do
-      [] -> ""
-      [hd | tl] -> stringify_map( hd ) <> "<br/>\n" <> stringify_list( tl )
+      [] -> []
+      [hd | tl] -> [ stringify_map hd ] ++ stringify_list( tl )
     end
   end
 
   defp articles do
     cursor = Mongo.find(:article, "my_app_db", %{})
-    list = cursor |> Enum.to_list()
-    stringify_list( list )
+    cursor |> Enum.to_list() |> stringify_list
   end
 
   def show_articles do
