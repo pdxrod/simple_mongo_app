@@ -5,27 +5,29 @@
     <a href="/">Home</a><br/><br/>
 
   </p>
-  <p>
-    Count: <%= show_article_count %>
-  </p>
-      <table class="table">
-        <thead>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Contents</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <% i = 0 %>
+      <%= for article <- show_articles() do %>
           <tr>
-            <th>Contents</th>
+            <td align = "left"> <%= elem( article, 1 ) |> raw %> </td>
+
+            <td class="text-right">
+              <% id = elem( article, 0 ) %>
+              <form id="number<%= id %>" method="post" name="number<%= id %>">
+                <span><button class="btn btn-default btn-xs" id="save_button_<%= id %>" type="submit">Save</button></span>
+              </form>
+            </td>
           </tr>
-        </thead>
-        <tbody>
+      <% end %>
 
-        <%= for article <- show_articles() do %>
-            <tr>
-              <td> <%= article |> raw %> </td>
+    </tbody>
+  </table>
 
-              <td class="text-right">
-                <span><%= link "Save", to: "/", class: "btn btn-default btn-xs" %></span>
-              </td>
-            </tr>
-        <% end %>
-
-        </tbody>
-      </table>
 </div>
