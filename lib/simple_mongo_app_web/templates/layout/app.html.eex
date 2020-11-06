@@ -21,7 +21,7 @@
         <%= render @view_module, @view_template, assigns %>
       </main>
 
-    </div> 
+    </div>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
