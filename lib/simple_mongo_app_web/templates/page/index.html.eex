@@ -7,12 +7,13 @@
       <%= for article <- show_articles() do %>
         <% csrf_token = Phoenix.Controller.get_csrf_token() %>
         <tr>
-          <td align = "left"> <%= elem( article, 1 ) |> raw %> </td>
 
-          <td class="text-right">
+          <td class="text-left">
+            <%= elem( article, 1 ) |> raw %>
             <% id = elem( article, 0 ) %>
-            <form id="form_<%= id %>" method="post" name="form_<%= id %>" _csrf_token="<%= csrf_token %>">
-              <span><button class="btn btn-default btn-xs" id="save_button_<%= id %>" type="submit">Save</button></span>
+            <form id="form_<%= id %>" method="post" name="form_<%= id %>">
+              <input id="_csrf_token" name="_csrf_token" type="hidden" value="<%= csrf_token %>">
+              <span><button class="btn btn-default btn-xs" id="save_button_<%= id %>" name="save_button_<%= id %>" type="submit">Save</button></span>
             </form>
           </td>
 
