@@ -21,7 +21,7 @@ defmodule SimpleMongoAppWeb.PageView do
       "#{key}: #{val}; "
     else
       str = Base.encode16(val.value, case: :lower)
-      "id: #{ str }; " # It's a %BSON.ObjectId{value: "HEXNUM"}  
+      "#{ str }" # It's a %BSON.ObjectId{value: "HEXNUM"}
     end
   end
 
@@ -35,7 +35,10 @@ defmodule SimpleMongoAppWeb.PageView do
   end
 
   defp stringify_map( map ) do
-    { "1", stringify_keys( Map.keys( map ), map ) }
+    str = stringify_keys( Map.keys( map ), map )
+    id = String.slice str, 0..23
+    str = String.slice str, 24..-1
+    { id, str } # id is the first 24 characters of the string returned by stringify_keys - str is the rest of it
   end
 
   defp stringify_list( list ) do
