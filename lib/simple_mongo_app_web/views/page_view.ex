@@ -17,10 +17,11 @@ defmodule SimpleMongoAppWeb.PageView do
   end
 
   defp stringify_key_val( key, val ) do
-    if typeof( val ) == "binary" do # It might be a BSONObject(HEXNUMBER) - skip it
+    if typeof( val ) == "binary" do
       "#{key}: #{val}; "
     else
-      ""
+      str = Base.encode16(val.value, case: :lower)
+      "id: #{ str }; " # It's a %BSON.ObjectId{value: "HEXNUM"}  
     end
   end
 
