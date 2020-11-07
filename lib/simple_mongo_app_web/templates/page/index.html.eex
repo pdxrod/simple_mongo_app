@@ -23,7 +23,7 @@
 
       <tr>
         <td>
-<%= find_article("5f9d7adca9f74f0c6b94623b", show_articles()) %>
+<%= # find_article("5f9d7adca9f74f0c6b94623b", show_articles()) %>
         </td>
       </tr>
 

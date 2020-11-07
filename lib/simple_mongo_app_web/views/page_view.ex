@@ -18,7 +18,7 @@ defmodule SimpleMongoAppWeb.PageView do
 
   defp stringify_key_val( key, val ) do
     if typeof( val ) == "binary" do
-      "<input id='#{key}' name='#{key}' type='text' value='#{val}'>"
+      "#{key} <input id='#{key}' name='#{key}' type='text' value='#{val}'> "
     else
       str = Base.encode16(val.value, case: :lower)
       "#{ str }" # It's a %BSON.ObjectId{value: "HEXNUM"}
@@ -50,7 +50,9 @@ defmodule SimpleMongoAppWeb.PageView do
 
   defp articles do
     cursor = Mongo.find(:article, "my_app_db", %{})
-    cursor |> Enum.to_list() |> stringify_list
+    list = cursor |> Enum.to_list() |> stringify_list
+    list = list ++ [ {"0", "new column <input id='new_column' name='new_column' type='text' value=''> "} ]
+    list
   end
 
   def find_article( id, articles_list ) do
