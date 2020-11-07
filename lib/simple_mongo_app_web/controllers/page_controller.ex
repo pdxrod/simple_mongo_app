@@ -13,9 +13,10 @@ defmodule SimpleMongoAppWeb.PageController do
           id = String.slice( hd, 12..-1)
           IO.puts "id #{id}"
           id
+        else
+          IO.puts "#{hd} #{map[ hd ]}"
+          print_keys tl, map
         end
-        IO.puts "#{hd} #{map[ hd ]}"
-        print_keys tl, map
     end
   end
 
@@ -27,8 +28,15 @@ defmodule SimpleMongoAppWeb.PageController do
  # %{classification" => "man", "name" => "Joan", "new_column" => "gender", "save_button_5f9d7adca9f74f0c6b94623b" => ""}
   defp analyze_params( params ) do
     id = get_id params
-    if id != @decaf0ff do # User is attempting to save an article
-
+    if id == @decaf0ff do # User is attempting to save an article
+      IO.puts "Not found"
+    else
+      id = <<53, 102, 57, 100, 55, 97, 100, 99, 97, 57, 102, 55, 52, 102, 48, 99, 54, 98, 57, 52, 54, 50, 51, 98, 0>>
+      id = "5f9d7adca9f74f0c6b94623b" <> <<0>>
+      obj_id = %BSON.ObjectId{ value: "5f9d7adca9f74f0c6b94623b" }
+      IO.puts "\nFinding by object id"
+      cursor = Mongo.find_one_and_replace(:article, "my_app_db", %{}, %{_id: id, name: "Joan"})
+      IO.puts "Found articles"
     end
   end
 

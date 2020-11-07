@@ -1,5 +1,5 @@
 <div class="jumbotron">
-  <h3>Articles Database</h3>
+  <h4>Enter classification and name, and a new column if needed, and hit 'Save'</h4>
 
   <table class="table">
     <tbody>
