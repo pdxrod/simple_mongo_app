@@ -69,7 +69,7 @@ defmodule SimpleMongoAppWeb.PageView do
 
   def show_articles do
     try do
-      start_mongo
+      start_mongo()
       articles()
     rescue
       re in RuntimeError -> re
