@@ -38,6 +38,7 @@ defmodule SimpleMongoAppWeb.PageView do
     str = stringify_keys( Map.keys( map ), map )
     id = String.slice str, 0..23
     str = String.slice str, 24..-1
+    str = str <> "\n<br/>new column <input id='new_column' name='new_column' type='text' value=''> "
     { id, str } # id is the first 24 characters of the string returned by stringify_keys - str is the rest of it
   end
 
@@ -50,9 +51,7 @@ defmodule SimpleMongoAppWeb.PageView do
 
   defp articles do
     cursor = Mongo.find(:article, "my_app_db", %{})
-    list = cursor |> Enum.to_list() |> stringify_list
-    list = list ++ [ {"0", "new column <input id='new_column' name='new_column' type='text' value=''> "} ]
-    list
+    cursor |> Enum.to_list() |> stringify_list
   end
 
   def find_article( id, articles_list ) do
