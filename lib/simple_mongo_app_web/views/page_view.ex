@@ -70,7 +70,7 @@ defmodule SimpleMongoAppWeb.PageView do
   def show_articles do
     try do
       start_mongo
-      articles
+      articles()
     rescue
       re in RuntimeError -> re
       ["e", "Error: #{ re.message }"] # {:error, {:already_started, #PID<0.451.0>}}
