@@ -18,7 +18,7 @@ defmodule SimpleMongoAppWeb.PageView do
 
   defp stringify_key_val( key, val ) do
     if typeof( val ) == "binary" do
-      "#{key} <input id='#{key}' name='#{key}' type='text' value='#{val}'> "
+      "#{key} <input id='#{key}' name='#{key}' type='text' value='#{val}'><br/>\n"
     else
       str = Base.encode16(val.value, case: :lower)
       "#{ str }" # It's a %BSON.ObjectId{value: "HEXNUM"}
@@ -38,7 +38,7 @@ defmodule SimpleMongoAppWeb.PageView do
     str = stringify_keys( Map.keys( map ), map )
     id = String.slice str, 0..23
     str = String.slice str, 24..-1
-    str = str <> "\n<br/>new column <input id='new_column' name='new_column' type='text' value=''> "
+    str = str <> "new column <input id='new_column' name='new_column' type='text' value=''> "
     { id, str } # id is the first 24 characters of the string returned by stringify_keys - str is the rest of it
   end
 
