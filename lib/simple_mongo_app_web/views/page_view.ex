@@ -18,7 +18,7 @@ defmodule SimpleMongoAppWeb.PageView do
 
   defp stringify_key_val( key, val ) do
     if typeof( val ) == "binary" do
-      "#{key}: #{val}; "
+      "<input id='#{key}' name='#{key}' type='text' value='#{val}'>"
     else
       str = Base.encode16(val.value, case: :lower)
       "#{ str }" # It's a %BSON.ObjectId{value: "HEXNUM"}
