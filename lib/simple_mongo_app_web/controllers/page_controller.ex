@@ -4,7 +4,7 @@ defmodule SimpleMongoAppWeb.PageController do
   @save_button_reg ~r/save_button_.+/
   @decaf0ff "decaf0ff"
 
-  defp print_keys( keys, map ) do
+  defp find_id( keys, map ) do
     case keys do
       [] ->
         @decaf0ff
@@ -15,29 +15,50 @@ defmodule SimpleMongoAppWeb.PageController do
           id
         else
           IO.puts "#{hd} #{map[ hd ]}"
-          print_keys tl, map
+          find_id tl, map
         end
     end
   end
 
-  defp get_id( params ) do
-    keys = Map.keys params
-    print_keys keys, params
+  defp find_save_button_key( keys ) do
+    case keys do
+      [] -> @decaf00f
+      [hd | tl] ->
+        if hd =~ @save_button_reg do
+          hd
+        else
+          find_save_button_key tl
+        end
+    end
+  end
+
+  defp remove_unwanted_keys( args ) do
+ # "_csrf_token" => "UCwUFn5PbBw9FSNpMR0aRyk8MDkdOgYa4gECM56NsyaZCUhqfIwKQPVE",
+ # "_id" => #BSON.ObjectId<5fa793f09dad02e8eae18e33>, "classification" => "man",
+ # "name" => "John", "new_column" => "gender", "save_button_5f9d79c5a9f74f0bfb2cb5cc" => ""
+   map = Map.delete( args, "_csrf_token" )
+   map = Map.delete( map, "_id" )
+   key = find_save_button_key( Map.keys( map ))
+   Map.delete( map, key )
   end
 
  # %{classification" => "man", "name" => "Joan", "new_column" => "gender", "save_button_5f9d7adca9f74f0c6b94623b" => ""}
   defp analyze_params( params ) do
-    id = get_id params
+    id = find_id( Map.keys( params ), params )
     if id == @decaf0ff do # User is attempting to save an article
       IO.puts "Not found"
     else
-      id = <<53, 102, 57, 100, 55, 97, 100, 99, 97, 57, 102, 55, 52, 102, 48, 99, 54, 98, 57, 52, 54, 50, 51, 98, 0>>
-      id = "5f9d7adca9f74f0c6b94623b" <> <<0>>
-      obj_id = %BSON.ObjectId{ value: "5f9d7adca9f74f0c6b94623b" }
+# This turns it into <<53, 102, 57, 100, 55, 97, 100, 99, 97, 57, 102, 55, 52, 102, 48, 99, 54, 98, 57, 52, 54, 50, 51, 98, 0>>
+      id = id <> <<0>>
+      obj_id = %BSON.ObjectId{ value: id }
       IO.puts "\nFinding by object id"
       article = %{}
-      {:ok, article} = Mongo.find_one_and_replace(:article, "article", %{}, params, [return_document: :after, upsert: :true])
-      IO.puts "Found and replaced article"
+      {:ok, new_article} = Mongo.find_one_and_replace(:article, "article", article, params, [return_document: :after, upsert: :true])
+      new_article = remove_unwanted_keys new_article
+      c = new_article["classification"]
+      n = new_article["name"]
+      nc = new_article["new_column"]
+      IO.puts "Found and replaced article #{c} #{n} #{nc}"
     end
   end
 

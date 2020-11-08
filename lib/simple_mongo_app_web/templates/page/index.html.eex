@@ -1,5 +1,5 @@
 <div class="jumbotron">
-  <h4>Enter classification and name, and a new column if needed, and hit 'Save'</h4>
+  <h5>Enter classification and name, and a new column if required, and hit 'Save'</h5>
 
   <table class="table">
     <tbody>
