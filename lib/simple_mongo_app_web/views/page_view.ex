@@ -11,6 +11,9 @@ defmodule SimpleMongoAppWeb.PageView do
     )
   end
 
+  @new_column_field "new column <input id='new_column' name='new_column' type='text' value=''> "
+  @new_column_reg ~r/new column <input id='new_column' name='new_column' type='text' value/
+
   @types ~w[function nil integer binary bitstring list map float atom tuple pid port reference]
   for type <- @types do
     def typeof(x) when unquote(:"is_#{type}")(x), do: unquote(type)
@@ -42,14 +45,17 @@ defmodule SimpleMongoAppWeb.PageView do
     str = stringify_keys( Map.keys( map ), map )
     id = String.slice str, 0..23
     str = String.slice str, 24..-1
-    str = str <> "new column <input id='new_column' name='new_column' type='text' value=''> "
-    { id, str } # id is the first 24 characters of the string returned by stringify_keys - str is the rest of it
+    if str =~ @new_column_reg do
+      [{ id, str }] # id is the first 24 characters of the string returned by stringify_keys - str is the rest of it
+    else
+      [{ id, str <> @new_column_field }]
+    end
   end
 
   defp stringify_list( list ) do
     case list do
       [] -> []
-      [hd | tl] -> [ stringify_map hd ] ++ stringify_list( tl )
+      [hd | tl] -> stringify_map( hd ) ++ stringify_list( tl )
     end
   end
 
