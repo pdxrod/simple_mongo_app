@@ -59,22 +59,17 @@ defmodule SimpleMongoAppWeb.PageView do
     end
   end
 
-  defp articles do
-    cursor = Mongo.find(:article, "my_app_db", %{})
-    cursor |> Enum.to_list() |> stringify_list
+  defp empty_row do
+    id = String.slice( RandomBytes.base16, 0..23 )
+    map = %{ name: "", classification: "" }
+    str = stringify_keys( Map.keys( map ), map )
+    [{ id, str <> @new_column_field }]
   end
 
-  def find_article( id, articles_list ) do
-    case articles_list do
-      [] -> ""
-      [ hd | tl ] ->
-        str = elem( hd, 0 )
-        if id == str do
-          str <> " " <> elem( hd, 1 )
-        else
-          find_article id, tl
-        end
-    end
+  defp articles do
+    cursor = Mongo.find(:article, "my_app_db", %{})
+    list = cursor |> Enum.to_list() |> stringify_list
+    list ++ empty_row
   end
 
   def show_articles do
