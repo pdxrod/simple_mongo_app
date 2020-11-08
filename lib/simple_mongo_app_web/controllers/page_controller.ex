@@ -30,11 +30,17 @@ defmodule SimpleMongoAppWeb.PageController do
     end
   end
 
+  defp find_new_column( args ) do
+    new_column = args["new_column"]
+    String.trim new_column
+  end
+
   defp remove_unwanted_keys( args ) do
  # "_csrf_token" => "UCwUFn5PbBw9FSNpMR0aRyk8MDkdOgYa4gECM56NsyaZCUhqfIwKQPVE",
  # "_id" => "5fa793f09dad02e8eae18e33", "classification" => "man",
  # "name" => "John", "new_column" => "gender", "save_button_5fa793f09dad02e8eae18e33" => ""
    map = Map.delete( args, "_csrf_token" )
+   map = Map.delete( map, "new_column" )
    key = find_save_button_key( Map.keys( map ))
    Map.delete( map, key )
   end
@@ -54,17 +60,20 @@ defmodule SimpleMongoAppWeb.PageController do
       IO.puts "Not found - this just means displaying the page, not hitting a Save button"
     else
       map = Mongo.find_one( :article, "my_app_db", %{_id: id} )
-      c = map["classification"]
-      n = map["name"]
-      nc = map["new_column"]
       old_article = %{_id: id}
+      new_column = find_new_column params
       new_article = remove_unwanted_keys params
+      new_map = if "" == new_column do
+        %{}
+      else
+        %{new_column => ""}
+      end
+      new_article = Map.merge( new_article, new_map )
       {:ok, new_article} = Mongo.find_one_and_replace(:article, "my_app_db", old_article, new_article, [return_document: :after, upsert: :true])
 #     {:ok, new_article} = Mongo.find_one_and_update( :article, "my_app_db", old_article,  %{"$set" => new_article}, [return_document: :after])
       c = new_article["classification"]
       n = new_article["name"]
-      nc = new_article["new_column"]
-      IO.puts "Found and replaced article #{c} #{n} #{nc}"
+      IO.puts "Found and replaced article #{id} #{c} #{n}"
     end
   end
 
