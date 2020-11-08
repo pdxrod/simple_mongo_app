@@ -55,7 +55,7 @@ defmodule SimpleMongoAppWeb.PageController do
       IO.puts "\nFinding by object id"
       article = remove_unwanted_keys params
       article = %{_id: id, name: "Jim", classification: "woman"}
-      {:ok, new_article} = Mongo.find_one_and_replace(:article, "article", article, article, [return_document: :after, upsert: :true])
+      {:ok, new_article} = Mongo.find_one_and_replace(:article, "my_app_db", article, article, [return_document: :after, upsert: :true])
   #    {:ok, new_article} = Mongo.find_one_and_update(:article, "article", article,  %{"$set" => article}, [return_document: :after])
       c = new_article["classification"]
       n = new_article["name"]
