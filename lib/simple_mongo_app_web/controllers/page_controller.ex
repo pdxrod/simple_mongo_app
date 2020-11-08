@@ -1,6 +1,5 @@
 defmodule SimpleMongoAppWeb.PageController do
   use SimpleMongoAppWeb, :controller
-  alias SimpleMongoApp.Article
 
   @save_button_reg ~r/save_button_.+/
   @decaf0ff "decaf0ff"
@@ -26,10 +25,6 @@ defmodule SimpleMongoAppWeb.PageController do
     print_keys keys, params
   end
 
-  defp changeset_new_article(article, params \\ %{}) do
-   article |> cast(params, [:classification, :name])
- end
-
  # %{classification" => "man", "name" => "Joan", "new_column" => "gender", "save_button_5f9d7adca9f74f0c6b94623b" => ""}
   defp analyze_params( params ) do
     id = get_id params
@@ -40,9 +35,8 @@ defmodule SimpleMongoAppWeb.PageController do
       id = "5f9d7adca9f74f0c6b94623b" <> <<0>>
       obj_id = %BSON.ObjectId{ value: "5f9d7adca9f74f0c6b94623b" }
       IO.puts "\nFinding by object id"
-      article = %SimpleMongoApp.Article{}
-      changeset = changeset_new_article(article, params)
-      {:ok, article} = Mongo.find_one_and_replace(:mongo, "article", %{}, changeset.changes, [return_document: :after, upsert: :true])
+      article = %{}
+      {:ok, article} = Mongo.find_one_and_replace(:article, "article", %{}, params, [return_document: :after, upsert: :true])
       IO.puts "Found and replaced article"
     end
   end
