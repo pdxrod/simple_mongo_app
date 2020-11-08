@@ -71,9 +71,9 @@ Mongo.start_link(
 )
 ```
 
-`Mongo.insert_one(:article, "my_app_db", %{name: "John", classification: "man" })`
+` Mongo.insert_one(:article, "my_app_db", %{name: "John", classification: "man", _id: "5f9d79c5a9f74f0bfb2cf0ff" }) `
 
-`Mongo.insert_one(:article, "my_app_db", %{name: "Ferrari", classification: "car", color: "red" })`
+` Mongo.insert_one(:article, "my_app_db", %{name: "Ferrari", classification: "car", color: "red", _id: "cafe79c5a9f74f0bfb2cb5cc" }) `
 
 
 See https://www.mongodb.com/basics/create-database
