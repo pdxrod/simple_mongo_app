@@ -3,29 +3,49 @@ defmodule SimpleMongoAppWeb.PageController do
   alias BSON.ObjectId
 
   @save_button_reg ~r/save_button_.+/
+  @dele_button_reg ~r/dele_button_.+/
   @decaf0ff "decaf0ff"
 
-  defp find_id( keys, map ) do
+  defp delete( id ) do
+    Mongo.delete_one(:article, "my_app_db", %{_id: id})
+  end
+
+  defp replace( id, params ) do # Also creates a new article from the empty form
+    old_article = %{_id: id}
+    new_column = find_new_column params
+    new_article = remove_unwanted_keys params
+    new_map = if "" == new_column do
+      %{}
+    else
+      %{new_column => ""}
+    end
+    new_article = Map.merge( new_article, new_map )
+    {:ok, new_article} = Mongo.find_one_and_replace(:article, "my_app_db", old_article, new_article, [return_document: :after, upsert: :true])
+#     {:ok, new_article} = Mongo.find_one_and_update( :article, "my_app_db", old_article,  %{"$set" => new_article}, [return_document: :after])
+    new_article
+  end
+
+  defp find_id( keys, map, reg ) do
     case keys do
       [] ->
         @decaf0ff
       [hd | tl] ->
-        if hd =~ @save_button_reg do
+        if hd =~ reg do
           String.slice( hd, 12..-1)
         else
-          find_id tl, map
+          find_id tl, map, reg
         end
     end
   end
 
-  defp find_save_button_key( keys ) do
+  defp find_button_key( keys ) do
     case keys do
       [] -> @decaf00f
       [hd | tl] ->
-        if hd =~ @save_button_reg do
+        if (hd =~ @save_button_reg) || (hd =~ @dele_button_reg) do
           hd
         else
-          find_save_button_key tl
+          find_button_key tl
         end
     end
   end
@@ -41,7 +61,7 @@ defmodule SimpleMongoAppWeb.PageController do
  # "name" => "John", "new_column" => "gender", "save_button_5fa793f09dad02e8eae18e33" => ""
    map = Map.delete( args, "_csrf_token" )
    map = Map.delete( map, "new_column" )
-   key = find_save_button_key( Map.keys( map ))
+   key = find_button_key( Map.keys( map ))
    Map.delete( map, key )
   end
 
@@ -55,25 +75,20 @@ defmodule SimpleMongoAppWeb.PageController do
 
  # %{classification" => "man", "name" => "Joan", "new_column" => "gender", "save_button_5f9d7adca9f74f0c6b94623b" => ""}
   defp analyze_params( params ) do
-    id = find_id( Map.keys( params ), params )
+    id = find_id( Map.keys( params ), params, @save_button_reg )
     if id == @decaf0ff do
-      IO.puts "Not found - this just means displaying the page, not hitting a Save button"
-    else
-      map = Mongo.find_one( :article, "my_app_db", %{_id: id} )
-      old_article = %{_id: id}
-      new_column = find_new_column params
-      new_article = remove_unwanted_keys params
-      new_map = if "" == new_column do
-        %{}
+      id = find_id( Map.keys( params ), params, @dele_button_reg )
+      if id == @decaf0ff do
+        IO.puts "Not found - this just means displaying the page, not hitting a button"
       else
-        %{new_column => ""}
+        delete id
+        IO.puts "Found and deleted article #{id}"
       end
-      new_article = Map.merge( new_article, new_map )
-      {:ok, new_article} = Mongo.find_one_and_replace(:article, "my_app_db", old_article, new_article, [return_document: :after, upsert: :true])
-#     {:ok, new_article} = Mongo.find_one_and_update( :article, "my_app_db", old_article,  %{"$set" => new_article}, [return_document: :after])
+    else
+      new_article = replace id, params
       c = new_article["classification"]
       n = new_article["name"]
-      IO.puts "Found and replaced article #{id} #{c} #{n}"
+      IO.puts "Found and replaced article #{id} with #{c}: #{n}"
     end
   end
 

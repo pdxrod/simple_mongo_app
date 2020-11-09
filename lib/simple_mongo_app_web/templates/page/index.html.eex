@@ -14,6 +14,7 @@
               <%= elem( article, 1 ) |> raw %>
               <input id="_csrf_token" name="_csrf_token" type="hidden" value="<%= csrf_token %>">
               <span><button class="btn btn-default btn-xs" id="save_button_<%= id %>" name="save_button_<%= id %>" type="submit">Save</button></span>
+              <span><button class="btn btn-default btn-xs" id="dele_button_<%= id %>" name="dele_button_<%= id %>" type="submit">Delete</button></span>
             </form>
           </td>
 
