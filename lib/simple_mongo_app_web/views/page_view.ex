@@ -1,16 +1,6 @@
 defmodule SimpleMongoAppWeb.PageView do
   use SimpleMongoAppWeb, :view
 
-  defp start_mongo do
-    Mongo.start_link(
-      name: :article,
-      database: "my_app_db",
-      hostname: "localhost",
-      username: "root",
-      password: "rootpassword"
-    )
-  end
-
   @new_column_field "new column <input id='new_column' name='new_column' type='text' value=''> "
   @new_column_reg ~r/new column <input id='new_column' name='new_column' type='text' value/
 
@@ -74,11 +64,10 @@ defmodule SimpleMongoAppWeb.PageView do
 
   def show_articles do
     try do
-      start_mongo()
       articles()
     rescue
       re in RuntimeError -> re
-      ["e", "Error: #{ re.message }"] # {:error, {:already_started, #PID<0.451.0>}}
+      [ { "decaf0ff", "Error: #{ re.message }" } ]
     end
   end
 

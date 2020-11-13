@@ -5,16 +5,8 @@ defmodule SimpleMongoApp.Application do
     import Supervisor.Spec
 
     children = [
-      supervisor(SimpleMongoAppWeb.Endpoint, []),
-      worker(
-             Mongo,
-             [[
-               database: "my_app_db",
-               hostname: "localhost",
-               username: "root",
-               password: "rootpassword"
-             ]]
-           )
+      supervisor(SimpleMongoAppWeb.Endpoint, [] ),
+      worker( SimpleMongoApp.Mongodb, [] )
     ]
 
     opts = [strategy: :one_for_one, name: SimpleMongoApp.Supervisor]
