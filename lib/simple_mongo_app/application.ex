@@ -6,7 +6,7 @@ defmodule SimpleMongoApp.Application do
 
     children = [
       supervisor(SimpleMongoAppWeb.Endpoint, [] ),
-      worker( SimpleMongoApp.Mongodb, [] )
+      worker( SimpleMongoApp.MongoDb, [] )
     ]
 
     opts = [strategy: :one_for_one, name: SimpleMongoApp.Supervisor]

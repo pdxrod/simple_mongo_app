@@ -27,7 +27,6 @@ defmodule SimpleMongoApp.Mixfile do
   defp deps do
     [
       {:phoenix, "~> 1.3.0"},
-      {:phoenix_pubsub, "~> 1.0"},
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_ecto, "~> 4.2.1"},
@@ -35,15 +34,12 @@ defmodule SimpleMongoApp.Mixfile do
       {:cowboy, "~> 1.0"},
       {:plug_cowboy, "~> 1.0"},
       {:mongodb, "~> 0.5.1"},
-      {:random_bytes, "~> 1.0"}
+      {:random_bytes, "~> 1.0"},
     ]
   end
 
   defp aliases do
     [
-      "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
-      "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test"]
     ]
   end
 end
