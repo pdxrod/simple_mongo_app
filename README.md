@@ -1,5 +1,7 @@
 # SimpleMongoApp
 
+Tested on an Apple Macbook Pro with an M1 processor. Works with Elixir 1.11, OTP 23, but not with Elixir 1.12, OTP 24.
+
 Found clear instructions for how to connect Phoenix to MongoDB at https://medium.com/swlh/setup-phoenix-on-docker-with-mongodb-d411e24dd78c
 
 The only things missing are these:
